@@ -1,0 +1,566 @@
+#@ GLOBALS
+subcommand_use = "you must use subcommand"
+embed_footer = "requested by {user}"
+no_reason = "no reason provided"
+not_accessible = "not found"
+
+#@ ERRORS
+[errors.cooldown]
+title = "cooldown"
+description = "you must wait {seconds} seconds before using this command again"
+
+[errors.commands]
+title = "error while executing command"
+description = "The bug has been reported to the bot developers. We apologize for the inconvenience."
+description_with_error = "The bug has been reported to the bot developers. We apologize for the inconvenience.\n\n```rust\n{error}```"
+
+[errors.arguments]
+too_few = "too few arguments"
+too_many = "too many arguments"
+title = "error while converting arguments"
+member = "user not found on server"
+guild = "server not found"
+channel = "channel not found"
+role = "role not found"
+emoji = "emoji not found"
+user = "user not found"
+guild_channel = "channel not found on server"
+color = "invalid color"
+duration = "invalid duration format, or duration lower than 1 minute (example: 1d2h3m4s)"
+bool = "invalid boolean value (example: true/false/yes/no)"
+choice = "invalid choice"
+number = "invalid number"
+
+[errors.missing_user_permissions]
+title = "no permission"
+description = "you don't have permission to execute this command"
+description_detailed = "you don't have permission to execute this command; you need permissions:\n\n{permissions}"
+
+[errors.missing_bot_permissions]
+title = "no permission"
+description_detailed = "the bot does not have permission to execute this command; it needs permissions:\n\n{permissions}"
+
+[errors.nsfw]
+title = "warning"
+description = "this command can only be used in NSFW channels."
+
+#@ BOOLEANS
+[bool]
+"true" = "yes"
+"false" = "no"
+
+#@ COMMAND DESCRIPTIONS
+[command_description]
+services = "manage bot services"
+tempmute = "mute user for a specified time"
+unmute = "unmute user"
+mute = "mute user"
+config = "manage bot configuration"
+warn = "warn user"
+timeout = "timeout user for 28 days (Discord limit)"
+delete_punishment = "delete punishment"
+punishment = "display information about punishment"
+tempban = "ban user for a specified time"
+kick = "kick user"
+ban = "ban user"
+theme = "manage bot look"
+help = "show command list"
+prefix = "manage bot prefixes"
+ping = "get bot latency"
+shell = "execute code in console"
+user = "get user information"
+channel = "get channel information"
+server = "get server information"
+ascii_art = "generate ascii art"
+role = "get role information"
+stats = "get bot statistics"
+
+#@ COMMAND NAMES
+[command_name]
+services = "services"
+tempmute = "tempmute"
+unmute = "unmute"
+mute = "mute"
+config = "config"
+warn = "warn"
+timeout = "timeout"
+untimeout = "untimeout"
+delete_punishment = "delete-punishment"
+punishment = "punishment"
+tempban = "tempban"
+kick = "kick"
+ban = "ban"
+theme = "theme"
+prefix = "prefix"
+ascii_art = "ascii-art"
+help = "help"
+ping = "ping"
+shell = "shell"
+user = "user"
+channel = "channel"
+stats = "stats"
+server = "server"
+role = "role"
+
+#@ SUBCOMMAND NAMES
+[subcommand_name.services]
+enable = "enable"
+disable = "disable"
+show = "display"
+
+[subcommand_name.config]
+mute_role = "mute-role"
+show = "show"
+
+[subcommand_name.prefix]
+add = "add"
+remove = "remove"
+list = "list"
+
+[subcommand_name.theme]
+success = "success"
+warning = "warning"
+info = "info"
+error = "error"
+
+#@ SUBCOMMAND DESCRIPTIONS
+[subcommand_description.services]
+enable = "enable service"
+disable = "disable service"
+show = "show services"
+
+[subcommand_description.config]
+mute_role = "change mute role"
+show = "show guild configuration"
+
+[subcommand_description.prefix]
+add = "add prefix"
+remove = "remove prefix"
+list = "show list of prefixes"
+
+[subcommand_description.theme]
+success = "change color of success embed"
+warning = "change color of warning embed"
+info = "change color of info embed"
+error = "change color of error embed"
+
+#@ PARAM DESCRIPTIONS
+[param_description.services]
+service_name = "service name"
+
+[param_description.theme]
+color = "color"
+
+[param_description.warn]
+user = "user"
+reason = "reason"
+
+[param_description.punishment]
+punishment_id = "punishment id"
+
+[param_description.delete_punishment]
+punishment_id = "punishment id"
+
+[param_description.config]
+role = "mute role"
+
+[param_description.tempban]
+user = "user"
+duration = "duration"
+reason = "reason"
+days = "days to delete messages"
+
+[param_description.tempmute]
+user = "user"
+duration = "duration"
+reason = "reason"
+
+[param_description.timeout]
+user = "user"
+reason = "reason"
+
+[param_description.unmute]
+user = "user"
+reason = "reason"
+
+[param_description.untimeout]
+user = "user"
+reason = "reason"
+
+[param_description.mute]
+user = "user"
+reason = "reason"
+
+[param_description.ban]
+user = "user"
+reason = "reason"
+days = "days to delete messages"
+
+[param_description.kick]
+user = "user"
+reason = "reason"
+
+[param_description.prefix]
+prefix = "prefix that you want to add/remove"
+
+[param_description.help]
+command_name = "command name"
+
+[param_description.ascii_art]
+text = "text"
+
+[param_description.shell]
+code = "console code"
+
+[param_description.channel]
+channel = "channel"
+
+[param_description.server]
+server = "server"
+
+[param_description.role]
+role = "role"
+
+[param_description.user]
+user = "user"
+
+#@ PARAM NAMES
+[param_name.services]
+service_name = "service"
+
+[param_name.punishment]
+punishment_id = "punishment"
+
+[param_name.delete_punishment]
+punishment_id = "punishment"
+
+[param_name.tempban]
+user = "user"
+reason = "reason"
+duration = "duration"
+days = "days"
+
+[param_name.config]
+role = "mute_role"
+
+[param_name.tempmute]
+user = "user"
+reason = "reason"
+duration = "duration"
+
+[param_name.ban]
+user = "user"
+reason = "reason"
+days = "days"
+
+[param_name.timeout]
+user = "user"
+reason = "reason"
+
+[param_name.unmute]
+user = "user"
+reason = "reason"
+
+[param_name.untimeout]
+user = "user"
+reason = "reason"
+
+[param_name.kick]
+user = "user"
+reason = "reason"
+
+[param_name.mute]
+user = "user"
+reason = "reason"
+
+[param_name.warn]
+user = "user"
+reason = "reason"
+
+[param_name.prefix]
+prefix = "prefix"
+
+[param_name.color]
+color = "color"
+
+[param_name.help]
+command_name = "command"
+
+[param_name.ascii_art]
+text = "text"
+
+[param_name.server]
+server = "server"
+
+[param_name.channel]
+channel = "channel"
+
+[param_name.role]
+role = "role"
+
+[param_name.shell]
+code = "code"
+
+[param_name.user]
+user = "user"
+
+#@ GLOBALS
+[globals]
+error = "error"
+success = "success"
+info = "info"
+warn = "warn"
+
+#@ EMBED TITLES
+[embed_title]
+help = "command list"
+ping = "bot latency"
+shell = "code executed"
+user = "information about user"
+stats = "bot statistics"
+channel = "information about channel"
+role = "information about role"
+server = "information about server"
+shell_error = "error while executing code"
+theme_updated = "theme updated"
+kick = "user kicked"
+ban = "user banned"
+tempban = "user temporarily banned"
+punishment = "punishment information"
+warn = "user warned"
+delete_punishment = "punishment deleted"
+confirmation = "confirmation"
+timeout = "user timeouted"
+untimeout = "timeout removed"
+mute = "user muted"
+unmute = "user unmuted"
+tempmute = "user temporarily muted"
+
+[embed_title.services]
+display = "services"
+enabled = "service enabled"
+disabled = "service disabled"
+
+[embed_title.config]
+show = "configuration"
+mute_role = "mute role changed"
+
+[embed_title.prefix]
+add_success = "prefix added"
+remove_success = "prefix removed"
+list = "prefix list"
+
+#@ COMMAND SPECIFIC DATA
+[help]
+general = "command list"
+command_not_found = "command '{command}' not found"
+
+[help.with_command]
+description = "information about command {command}"
+subcommands = "subcommands"
+category = "category"
+aliases = "aliases"
+usage = "usage"
+
+[ping]
+pinging = "pinging..."
+bot_latency = "bot latency: {latency}ms"
+
+[user]
+id = "id"
+username = "username"
+bot = "is bot?"
+created_at = "account creation date"
+joined_at = "server join date"
+nick = "nickname"
+roles = "role list"
+no_nick = "no nickname"
+no_roles = "no roles"
+
+[channel]
+invalid_type = "unsupported channel type"
+id = "id"
+name = "name"
+category = "category"
+created_at = "created date"
+nsfw = "NSFW channel?"
+type = "type"
+no_category = "no category"
+topic = "topic"
+no_topic = "no topic"
+
+[channel.types]
+text = "text"
+voice = "voice"
+category = "category"
+news = "announcement"
+forum = "forum"
+news_thread = "announcement thread"
+public_thread = "public thread"
+private_thread = "private thread"
+stage = "stage channel"
+directory = "directory"
+
+[role]
+id = "id"
+name = "name"
+color = "color"
+hoist = "displayed separately?"
+position = "position"
+mentionable = "can you tag?"
+managed = "managed?"
+created_at = "created date"
+
+[server]
+name = "name"
+id = "id"
+owner = "owner"
+members = "number of members"
+roles = "number of roles"
+channels = "number of channels"
+emojis = "number of emojis"
+created_at = "created date"
+
+[stats]
+version = "version"
+guilds = "servers"
+uptime = "uptime"
+users = "users"
+channels = "channels"
+commands = "commands"
+memory = "memory"
+system = "system"
+
+[ascii_art]
+no_result = "no result; text didn't contain ASCII characters"
+too_long = "text is too long"
+
+[prefix]
+add_success = "prefix added"
+remove_success = "prefix removed"
+add_error = "error adding prefix"
+remove_error = "error removing prefix"
+already_added = "this prefix already exists"
+not_found = "prefix not found"
+list = "prefix list"
+
+[theme]
+color_change_success = "embed color changed"
+color_change_error = "failed to change embed color"
+
+[kick]
+success_description = "user {user} kicked for reason: {reason}"
+error_description = "error while kicking user, check bot permissions"
+highest_role = "you can't kick this user because he has a higher/the same role as you"
+self = "you can't kick yourself"
+bot = "i can't kick myself 🥲"
+
+[timeout]
+success_description = "user {user} timeouted **FOR 28 DAYS (Discord limit)** for reason: {reason}"
+error_description = "error while adding timeout to user, check bot permissions"
+administrator = "you can't timeout this user because he has administrator permission"
+highest_role = "you can't timeout this user because he has a higher/the same role as you"
+already_timeouted = "this user is already timeouted"
+self = "you can't timeout yourself"
+bot = "i can't timeout myself 🥲"
+
+[mute]
+no_mute_role = "mute role not set; check guild configuration"
+success_description = "user {user} muted for reason: {reason}"
+error_description = "error while adding mute to user, check bot permissions"
+administrator = "you can't mute this user because he has administrator permission"
+highest_role = "you can't mute this user because he has a higher/the same role as you"
+already_muted = "this user is already muted"
+self = "you can't mute yourself"
+bot = "i can't mute myself 🥲"
+
+[tempmute]
+no_mute_role = "mute role not set; check guild configuration"
+success_description = "user {user} temporarily muted for reason: {reason}"
+error_description = "error while adding temporary mute to user, check bot permissions"
+administrator = "you can't temporarily mute this user because he has administrator permission"
+highest_role = "you can't temporarily mute this user because he has a higher/the same role as you"
+invalid_duration = "you can mute user for at most 1 year"
+already_muted = "this user is already muted"
+self = "you can't mute yourself"
+bot = "i can't mute myself 🥲"
+
+[unmute]
+no_mute_role = "mute role not set; check guild configuration"
+success_description = "user {user} unmuted for reason: {reason}"
+error_description = "error while removing mute from user, check bot permissions"
+administrator = "you can't unmute this user because he has administrator permission"
+highest_role = "you can't unmute this user because he has a higher/the same role as you"
+not_muted = "this user is not muted"
+self = "you aren't muted"
+bot = "i'm not muted"
+
+[untimeout]
+success_description = "user {user} untimeouted for reason: {reason}"
+error_description = "error while removing timeout from user, check bot permissions"
+administrator = "you can't untimeout this user because he has administrator permission"
+highest_role = "you can't untimeout this user because he has a higher/the same role as you"
+not_timeouted = "this user is not timeouted"
+self = "you aren't timeouted"
+bot = "i'm not timeouted"
+
+[warn]
+success_description = "user {user} warned for reason: {reason}"
+highest_role = "you can't warn this user because he has a higher/the same role as you"
+self = "you can't warn yourself"
+bot = "i can't warn myself 🥲"
+
+[ban]
+success_description = "user {user} banned for reason: {reason}"
+error_description = "error while banning user, check bot permissions"
+highest_role = "you can't ban this user because he has a higher/the same role as you"
+self = "you can't ban yourself"
+bot = "i can't ban myself 🥲"
+already_banned = "this user is already banned"
+days_error = "days must be between 0 and 7"
+
+[tempban]
+success_description = "{user} temporarily banned for {duration} for {reason}"
+error_description = "Failed to temporarily ban this user, check bot permissions"
+invalid_duration = "you can ban a user for up to 1 year"
+highest_role = "you can't ban this user because he has a higher/the same role as you"
+self = "you can't ban yourself"
+bot = "i can't ban myself 🥲"
+already_banned = "this user is already banned"
+
+[punishment]
+info_description = "punishment information #{id}"
+not_found = "no punishment with id {id} found"
+delete_confirmation = "are you sure you want to delete this punishment?"
+not_allowed = "you do not have permission to view this punishment; you must have moderate members permission to see other users' punishments"
+
+[punishment.info_fields]
+punishment_id = "punishment id"
+punishment_type = "punishment type"
+reason = "punishment reason"
+user_id = "user id"
+moderator_id = "moderator id"
+created_at = "creation date"
+
+[confirmation]
+instructions_title = "instructions"
+instructions_description = "in order to confirm your choice, please react to this message with {correct} emoji"
+invalid_reaction = "you reacted with the wrong emoji"
+
+[delete_punishment]
+success_description = "punishment #{id} deleted"
+
+[config.embed_field]
+mute_role = "mute role"
+
+[config.mute_role]
+everyone = "give role other than @\u200beveryone"
+managed = "give role other than managed by bot"
+success = "mute role changed"
+error = "error while changing mute role"
+
+[services]
+details = "enabled: {enabled}\nrunning since {uptime}\nrunning every **{interval}** seconds"
+enabled = "successfully enabled service"
+disabled = "successfully disabled service"
+not_found = "service not found"

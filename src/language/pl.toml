@@ -1,0 +1,565 @@
+#@ GLOBALS
+subcommand_use = "musisz użyć subkomendy"
+embed_footer = "wywołane przez {user}"
+not_accessible = "nie znaleziono"
+no_reason = "nie podano powodu"
+
+#@ ERRORS
+[errors.cooldown]
+title = "cooldown"
+description = "musisz poczekać {seconds} sekund przed ponownym użyciem tej komendy"
+
+[errors.commands]
+title = "błąd podczas wykonywania komendy"
+description = "błąd został zgłoszony do twórców bota. Przepraszamy za niedogodności."
+description_with_error = "błąd został zgłoszony do twórców bota. Przepraszamy za niedogodności.\n\n```rust\n{error}```"
+
+[errors.arguments]
+too_few = "podano za mało argumentów"
+too_many = "podano za dużo argumentów"
+title = "błąd podczas konwersji argumentów"
+member = "nie znaleziono użytkownika na serwerze"
+guild = "nie znaleziono serwera"
+channel = "nie znaleziono kanału"
+role = "nie znaleziono roli"
+emoji = "nie znaleziono emoji"
+user = "nie znaleziono użytkownika"
+guild_channel = "nie znaleziono kanału na serwerze"
+color = "niepoprawny kolor"
+duration = "niepoprawny format czasu, lub czas poniżej 1 minuty (przykład: 1d2h3m4s)"
+number = "niepoprawny format liczby"
+bool = "niepoprawny format (oczekiwano true/false/yes/no)"
+choice = "niepoprawny wybór"
+
+[errors.missing_user_permissions]
+title = "brak uprawnień"
+description = "nie posiadasz uprawnień do wykonania tej komendy"
+description_detailed = "nie posiadasz uprawnień do wykonania tej komendy; potrzebujesz uprawnień:\n\n{permissions}"
+
+[errors.missing_bot_permissions]
+title = "brak uprawnień"
+description_detailed = "bot nie posiada uprawnień do wykonania tej komendy; potrzebuje uprawnień:\n\n{permissions}"
+
+[errors.nsfw]
+title = "ostrzeżenie"
+description = "ta komenda może być używana tylko na kanałach NSFW"
+
+#@ BOOLEANS
+[bool]
+"true" = "tak"
+"false" = "nie"
+
+#@ COMMAND DESCRIPTIONS
+[command_description]
+services = "zarządzaj usługami bota"
+tempmute = "wycisz użytkownika na określony czas"
+unmute = "usuń wyciszenie użytkownika na serwerze"
+mute = "klasycznie wycisz użytkownika na serwerze"
+config = "zarządzaj konfiguracją bota"
+untimeout = "usuń wyciszenie użytkownika na serwerze"
+timeout = "wycisz użytkownika na serwerze, na 28 dni (limit Discorda)"
+warn = "ostrzeż użytkownika"
+punishment = "wyświetl listę kar użytkownika"
+tempban = "zbanuj użytkownika na określony czas"
+kick = "wyrzuć użytkownika z serwera"
+ban = "zbanuj użytkownika na serwerze"
+theme = "zarządzaj wyglądem bota"
+prefix = "zarządzaj prefixami bota"
+help = "wyświetla listę komend"
+ping = "sprawdź ping bota"
+shell = "wykonaj kod w konsoli"
+ascii_art = "wyświetl tekst jako ASCII art"
+user = "wyświetl informacje o użytkowniku"
+stats = "wyświetl statystyki bota"
+channel = "wyświetl informacje o kanale"
+role = "wyświetl informacje o roli"
+server = "wyświetl informacje o serwerze"
+delete_punishment = "usuń karę"
+
+#@ COMMAND NAMES
+[command_name]
+services = "usługi"
+tempmute = "tempmute"
+unmute = "classic-unmute"
+mute = "classic-mute"
+config = "config"
+warn = "warn"
+timeout = "wycisz"
+untimeout = "odcisz"
+delete_punishment = "usuń-karę"
+punishment = "punishment"
+tempban = "tempban"
+kick = "kick"
+ban = "ban"
+theme = "motyw"
+help = "pomoc"
+ping = "ping"
+shell = "shell"
+user = "użytkownik"
+stats = "statystyki"
+channel = "kanał"
+server = "serwer"
+role = "rola"
+ascii_art = "ascii-art"
+prefix = "prefiks"
+
+#@ SUBCOMMAND NAMES
+[subcommand_name.services]
+enable = "włącz"
+disable = "wyłącz"
+show = "wyświetl"
+
+[subcommand_name.config]
+mute_role = "rola-wyciszenia"
+show = "wyświetl"
+
+[subcommand_name.prefix]
+add = "dodaj"
+remove = "usuń"
+list = "list"
+
+[subcommand_name.theme]
+success = "success"
+warning = "warning"
+info = "info"
+error = "error"
+
+#@ SUBCOMMAND DESCRIPTIONS
+[subcommand_description.services]
+enable = "włącz usługę bota"
+disable = "wyłącz usługę bota"
+show = "wyświetl listę usług bota"
+
+[subcommand_description.config]
+mute_role = "ustaw rolę wyciszenia"
+show = "wyświetl konfigurację bota"
+
+[subcommand_description.prefix]
+add = "dodaj prefix"
+remove = "usuń prefix"
+list = "wyświetl listę prefixów"
+
+[subcommand_description.theme]
+success = "zmień kolor embeda, gdy operacja się powiedzie"
+warning = "zmień kolor embeda, gdy operacja zwróci ostrzeżenie"
+info = "zmień kolor embeda, gdy operacja zwróci informację"
+error = "zmień kolor embeda, gdy operacja się nie powiedzie"
+
+#@ PARAM DESCRIPTIONS
+[param_description.services]
+service_name = "nazwa usługi"
+
+[param_description.theme]
+color = "kolor"
+
+[param_description.warn]
+user = "użytkownik"
+reason = "powód ostrzeżenia"
+
+[param_description.punishment]
+punishment_id = "ID kary"
+
+[param_description.delete_punishment]
+punishment_id = "ID kary"
+
+[param_description.config]
+role = "rola wyciszenia"
+
+[param_description.tempban]
+user = "użytkownik, którego chcesz zbanować"
+duration = "czas, na jaki chcesz zbanować użytkownika"
+days = "dni do usunięcia wiadomości"
+reason = "powód bana"
+
+[param_description.tempmute]
+user = "użytkownik, którego chcesz wyciszyć"
+duration = "czas, na jaki chcesz wyciszyć użytkownika"
+reason = "powód wyciszenia"
+
+[param_description.timeout]
+user = "użytkownik, którego chcesz wyciszyć"
+reason = "powód wyciszenia"
+
+[param_description.unmute]
+user = "użytkownik, którego chcesz odciszyć"
+reason = "powód odciszenia"
+
+[param_description.mute]
+user = "użytkownik, którego chcesz wyciszyć"
+reason = "powód wyciszenia"
+
+[param_description.untimeout]
+user = "użytkownik, którego chcesz odciszyć"
+reason = "powód odciszenia"
+
+[param_description.kick]
+user = "użytkownik, którego chcesz wyrzucić"
+reason = "powód wyrzucenia"
+
+[param_description.ban]
+user = "użytkownik, którego chcesz zbanować"
+reason = "powód bana"
+days = "dni do usunięcia wiadomości"
+
+[param_description.prefix]
+prefix = "prefiks, który chcesz dodać/usunąć"
+
+[param_description.help]
+command_name = "komenda"
+
+[param_description.shell]
+code = "kod do wykonania"
+
+[param_description.user]
+user = "użytkownik, którego informacje chcesz wyświetlić"
+
+[param_description.ascii_art]
+text = "tekst, który chcesz wyświetlić jako ASCII art"
+
+[param_description.role]
+role = "rola, której informacje chcesz wyświetlić"
+
+[param_description.channel]
+channel = "kanał, którego informacje chcesz wyświetlić"
+
+[param_description.server]
+server = "serwer, którego informacje chcesz wyświetlić"
+
+#@ PARAM NAMES
+[param_name.services]
+service_name = "usługa"
+
+[param_name.punishment]
+punishment_id = "id_kary"
+
+[param_name.delete_punishment]
+punishment_id = "id_kary"
+
+[param_name.tempban]
+user = "użytkownik"
+reason = "powód"
+duration = "czas"
+days = "dni"
+
+[param_name.config]
+role = "rola_wyciszenia"
+
+[param_name.tempmute]
+user = "użytkownik"
+reason = "powód"
+duration = "czas"
+
+[param_name.ban]
+user = "użytkownik"
+reason = "powód"
+days = "dni"
+
+[param_name.timeout]
+user = "użytkownik"
+reason = "powód"
+
+[param_name.unmute]
+user = "użytkownik"
+reason = "powód"
+
+[param_name.untimeout]
+user = "użytkownik"
+reason = "powód"
+
+[param_name.kick]
+user = "użytkownik"
+reason = "powód"
+
+[param_name.mute]
+user = "użytkownik"
+reason = "powód"
+
+[param_name.warn]
+user = "użytkownik"
+reason = "powód"
+
+[param_name.prefix]
+prefix = "prefiks"
+
+[param_name.theme]
+color = "kolor"
+
+[param_name.help]
+command_name = "komenda"
+
+[param_name.user]
+user = "użytkownik"
+
+[param_name.channel]
+channel = "kanał"
+
+[param_name.server]
+server = "serwer"
+
+[param_name.ascii_art]
+text = "tekst"
+
+[param_name.stats]
+stats = "statystyki"
+
+[param_name.role]
+role = "rola"
+
+[param_name.shell]
+code = "kod"
+
+#@ GLOBALS
+[globals]
+error = "błąd"
+success = "sukces"
+info = "informacja"
+warn = "ostrzeżenie"
+
+#@ EMBED TITLES
+[embed_title]
+ping = "ping bota"
+help = "lista komend"
+shell = "wykonano kod"
+user = "informacje o użytkowniku"
+channel = "informacje o kanale"
+stats = "statystyki bota"
+role = "informacje o roli"
+server = "informacje o serwerze"
+shell_error = "błąd podczas wykonywania kodu"
+theme_updated = "motyw zaktualizowany"
+kick = "wyrzucono użytkownika"
+ban = "zbanowano użytkownika"
+tempban = "zbanowano użytkownika tymczasowo"
+warn = "dodano ostrzeżenie użytkownikowi"
+punishment = "lista kar użytkownika"
+delete_punishment = "usunięto karę"
+confirmation = "potwierdzenie"
+timeout = "dodano przerwę użytkownikowi"
+untimeout = "usunięto przerwę użytkownikowi"
+mute = "wyciszono użytkownika"
+unmute = "odciszono użytkownika"
+tempmute = "wyciszono użytkownika tymczasowo"
+
+[embed_title.services]
+display = "usługi"
+enabled = "włączono usługę"
+disabled = "wyłączono usługę"
+
+[embed_title.config]
+show = "konfiguracja bota"
+mute_role = "zmieniono rolę wyciszenia"
+
+[embed_title.prefix]
+add_success = "dodano prefix"
+remove_success = "usunięto prefix"
+list = "lista prefixów"
+
+#@ COMMAND SPECIFIC DATA
+[help]
+general = "lista komend"
+command_not_found = "nie znaleziono komendy '{command}'"
+
+[help.with_command]
+description = "informacje o komendzie {command}"
+subcommands = "subcommands"
+usage = "sposób użycia"
+category = "kategoria"
+aliases = "aliasy"
+
+[ping]
+pinging = "pingowanie bota..."
+bot_latency = "ping bota: {latency}ms"
+
+[user]
+id = "id"
+username = "nazwa użytkownika"
+bot = "jest botem?"
+created_at = "data utworzenia konta"
+joined_at = "data dołączenia do serwera"
+nick = "pseudonim"
+roles = "lista ról"
+no_nick = "brak pseudonimu"
+no_roles = "brak ról"
+
+[channel]
+invalid_type = "niewspierany typ kanału"
+id = "id"
+name = "nazwa"
+category = "kategoria"
+created_at = "data utworzenia"
+nsfw = "kanał NSFW?"
+type = "typ"
+no_category = "brak kategorii"
+topic = "temat"
+no_topic = "brak tematu"
+
+[channel.types]
+text = "tekstowy"
+voice = "głosowy"
+category = "kategoria"
+news = "ogłoszeniowy"
+forum = "forum"
+news_thread = "wątek ogłoszeniowy"
+public_thread = "wątek publiczny"
+private_thread = "wątek prywatny"
+stage = "kanał podium"
+directory = "katalog"
+
+[role]
+id = "id"
+name = "nazwa"
+color = "kolor"
+hoist = "wyświetlana oddzielnie?"
+position = "pozycja"
+mentionable = "można oznaczyć?"
+managed = "zarządzana?"
+created_at = "data utworzenia"
+
+[server]
+name = "nazwa"
+id = "id"
+owner = "właściciel"
+members = "liczba członków"
+roles = "liczba ról"
+channels = "liczba kanałów"
+emojis = "liczba emoji"
+created_at = "data utworzenia"
+
+[stats]
+version = "wersja"
+uptime = "bot działa od"
+guilds = "serwery"
+users = "użytkownicy"
+channels = "kanały"
+commands = "komendy"
+memory = "pamięć"
+system = "system"
+
+[ascii_art]
+no_result = "brak wyniku; tekst nie zawiera znaków ASCII"
+too_long = "tekst ASCII jest za długi"
+
+[prefix]
+add_success = "dodano prefix"
+remove_success = "usunięto prefix"
+add_error = "błąd podczas dodawania prefixu"
+remove_error = "błąd podczas usuwania prefixu"
+already_added = "ten prefix już istnieje"
+not_found = "nie znaleziono prefixu"
+list = "lista prefixów"
+
+[theme]
+color_change_success = "zmieniono kolor embeda"
+color_change_error = "nie udało się zmienić koloru embeda"
+
+[kick]
+success_description = "wyrzucono użytkownika {user} z powodem: {reason}"
+error_description = "nie udało się wyrzucić tego użytkownika, sprawdź uprawnienia bota"
+highest_role = "nie można wyrzucić użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+self = "nie można wyrzucić siebie"
+bot = "nie mogę wyrzucić samego siebie 🥲"
+
+[timeout]
+success_description = "wyciszono użytkownika {user} **NA 28 DNI (limit Discorda)** z powodem: {reason}"
+error_description = "nie udało się wyciszyć tego użytkownika, sprawdź uprawnienia bota"
+highest_role = "nie można wyciszyć użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+administrator = "nie można wyciszyć użytkownika, ponieważ ma on uprawnienia administratora"
+already_timeouted = "ten użytkownik jest już wyciszony"
+self = "nie można wyciszyć siebie"
+bot = "nie mogę wyciszyć samego siebie 🥲"
+
+[mute]
+no_mute_role = "nie znaleziono roli wyciszenia, sprawdź konfigurację bota"
+success_description = "wyciszono użytkownika {user} z powodem: {reason}"
+error_description = "nie udało się wyciszyć tego użytkownika, sprawdź uprawnienia bota"
+highest_role = "nie można wyciszyć użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+already_muted = "ten użytkownik jest już wyciszony"
+self = "nie można wyciszyć siebie"
+bot = "nie mogę wyciszyć samego siebie 🥲"
+
+[untimeout]
+success_description = "odciszono użytkownika {user} z powodem: {reason}"
+error_description = "nie udało się odciszyć tego użytkownika, sprawdź uprawnienia bota"
+highest_role = "nie można odciszyć użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+not_timeouted = "ten użytkownik nie jest wyciszony"
+self = "nie jesteś wyciszony."
+bot = "nie jestem wyciszony."
+
+[unmute]
+no_mute_role = "nie znaleziono roli wyciszenia, sprawdź konfigurację bota"
+success_description = "odciszono użytkownika {user} z powodem: {reason}"
+error_description = "nie udało się odciszyć tego użytkownika, sprawdź uprawnienia bota"
+highest_role = "nie można odciszyć użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+not_muted = "ten użytkownik nie jest wyciszony"
+self = "nie jesteś wyciszony."
+bot = "nie jestem wyciszony."
+
+[warn]
+success_description = "dodano ostrzeżenie użytkownikowi {user} z powodem: {reason}"
+highest_role = "nie można ostrzec użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+self = "nie można ostrzec siebie"
+bot = "nie mogę ostrzec samego siebie 🥲"
+
+[ban]
+success_description = "zbanowano użytkownika {user} z powodem: {reason}"
+error_description = "nie udało się zbanować tego użytkownika, sprawdź uprawnienia bota"
+highest_role = "nie można zbanować użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+self = "nie można zbanować siebie"
+bot = "nie mogę zbanować samego siebie 🥲"
+already_banned = "ten użytkownik jest już zbanowany"
+days_error = "ilość dni musi być liczbą całkowitą, pomiędzy 0 a 7"
+
+[tempban]
+success_description = "zbanowano użytkownika {user} tymczasowo na {duration} z powodem: {reason}"
+error_description = "nie udało się tymczasowo zbanować tego użytkownika, sprawdź uprawnienia bota"
+invalid_duration = "możesz zbanować użytkownika na maksymalnie 1 rok"
+highest_role = "nie można zbanować użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+self = "nie można zbanować siebie"
+bot = "nie mogę zbanować samego siebie 🥲"
+
+[tempmute]
+success_description = "tymczasowo wyciszono użytkownika {user} na {duration} z powodem: {reason}"
+error_description = "nie udało się tymczasowo wyciszyć tego użytkownika, sprawdź uprawnienia bota"
+no_mute_role = "nie znaleziono roli wyciszenia, sprawdź konfigurację bota"
+invalid_duration = "możesz wyciszyć użytkownika na maksymalnie 1 rok"
+already_muted = "ten użytkownik jest już wyciszony"
+highest_role = "nie można wyciszyć użytkownika, ponieważ jego rola jest wyższa lub taka sama jak twoja"
+self = "nie można wyciszyć siebie"
+bot = "nie mogę wyciszyć samego siebie 🥲"
+
+[punishment]
+info_description = "informacje o karze #{id}"
+not_found = "nie znaleziono kary o id {id}"
+delete_confirmation = "czy na pewno chcesz usunąć tę karę?"
+not_allowed = "nie masz uprawnień do wyświetlenia tej kary; aby widzieć kary innych użytkowników, musisz mieć uprawnienia do zarządzania członkami"
+
+[punishment.info_fields]
+punishment_id = "id kary"
+punishment_type = "typ kary"
+reason = "powód kary"
+user_id = "id użytkownika"
+moderator_id = "id moderatora"
+created_at = "data nałożenia kary"
+
+[confirmation]
+instructions_title = "instrukcja"
+instructions_description = "aby potwierdzić swój wybór, wybierz reakcję {correct}."
+invalid_reaction = "wybrano nieprawidłową reakcję"
+
+[delete_punishment]
+success_description = "usunięto karę o ID #{id}"
+
+[config.embed_field]
+mute_role = "rola wyciszenia"
+
+[config.mute_role]
+everyone = "podaj inną rolę niż @\u200beveryone"
+managed = "podaj inną rolę niż zarządzana przez bota"
+success = "zmieniono rolę wyciszenia"
+error = "nie udało się zmienić roli wyciszenia"
+
+[services]
+details = "włączona: {enabled}\ndziała od {uptime}\nuruchamiana co **{interval}** sekund"
+enabled = "pomyślnie włączono usługę"
+disabled = "pomyślnie wyłączono usługę"
+not_found = "nie znaleziono tej usługi"
