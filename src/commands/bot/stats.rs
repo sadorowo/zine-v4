@@ -1,9 +1,9 @@
 use crate::language::handler::LanguageHandler;
-use poise::serenity_prelude::CacheHttp;
 use crate::{fmt_bytes, to_timestamp};
 use crate::theme::embeds::Embeds;
-use sysinfo::{SystemExt, System};
 use crate::commands::Context;
+
+use sysinfo::System;
 
 #[poise::command(
 slash_command,
@@ -16,15 +16,14 @@ pub async fn stats(ctx: Context<'_>) -> Result<(), String> {
     let mut embeds: Embeds = Embeds::from_context(ctx);
     let mem = System::new_all();
 
-    let mut embed = embeds.info(
+    let embed = embeds.info(
         &lang.translate("embed_title.stats"),
         "",
-    ).await;
-
-    embed.fields([
+    ).await
+    .fields([
         (
             lang.translate("stats.guilds"),
-            ctx.cache().unwrap().guilds().len().to_string(),
+            ctx.cache().guilds().len().to_string(),
             true
         ),
         (
@@ -34,7 +33,7 @@ pub async fn stats(ctx: Context<'_>) -> Result<(), String> {
         ),
         (
             lang.translate("stats.users"),
-            ctx.cache().unwrap().users().len().to_string(),
+            ctx.cache().users().len().to_string(),
             true
         ),
         (
@@ -47,7 +46,10 @@ pub async fn stats(ctx: Context<'_>) -> Result<(), String> {
         ),
         (
             lang.translate("stats.system"),
-            format!("{} {}", mem.name().unwrap_or(lang.translate("not_accessible")), mem.os_version().unwrap()).to_string(),
+            format!("{} {}",
+                    System::name().unwrap_or(lang.translate("not_accessible")),
+                    System::os_version().unwrap()
+            ).to_string(),
             true
         ),
         (

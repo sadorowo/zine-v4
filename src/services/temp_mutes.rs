@@ -1,26 +1,59 @@
 use crate::database::guild_config::GuildConfig;
 use crate::database::moderation::TempMute;
-use poise::serenity_prelude::CacheHttp;
+
+use poise::serenity_prelude::{CacheHttp, GuildId, UserId};
 use poise::serenity_prelude::Context;
+use tokio::time::interval;
+use std::time::Duration;
 use mongodb::Database;
+use std::ops::Deref;
+use std::sync::Arc;
+use tokio::select;
 
-pub(crate) async fn listen(ctx: Context, db: Database) {
-    let temp_mutes = TempMute::expired(db.clone()).await;
+pub struct TempMuteService(Arc<Database>, Arc<Context>);
 
-    for temp_mute in temp_mutes {
-        let guild = ctx.cache().unwrap().guild(temp_mute.guild_id).unwrap();
-        let mut member = guild.member(&ctx.http(), temp_mute.user_id).await.unwrap();
+impl TempMuteService {
+    pub fn new(db: Arc<Database>, ctx: Arc<Context>) -> Self {
+        Self(db, ctx)
+    }
 
-        let config = GuildConfig::from_raw(
-            db.clone(),
-            &temp_mute.guild_id.to_string()
-        ).await;
+    pub fn setup_task(self, every: u64) {
+        tokio::spawn(async move {
+            let mut tick = interval(Duration::from_secs(every));
+            loop {
+                select! {
+                    _ = tick.tick() => {
+                        self.listen().await;
+                    }
+                }
+            }
+        });
+    }
 
-        if config.moderation.mute_role.is_none() {
-            temp_mute.self_destruct(db.clone()).await;
+    pub async fn listen(&self) {
+        let database = self.0.deref();
+        let context = self.1.deref();
+
+        let temp_mutes = TempMute::expired(database).await;
+
+        for temp_mute in temp_mutes {
+            let guild_config = GuildConfig::from_raw(database.clone(), &temp_mute.guild_id.to_string()).await;
+
+            if guild_config.moderation.mute_role.is_none() {
+                temp_mute.self_destruct(database).await;
+                continue;
+            }
+
+            context
+                .http()
+                .remove_member_role(
+                    GuildId::new(temp_mute.guild_id),
+                    UserId::new(temp_mute.user_id),
+                    guild_config.moderation.mute_role.unwrap(),
+                    Some("Automatic unmute")
+                ).await.unwrap();
+
+            temp_mute.self_destruct(database).await;
         }
-
-        member.remove_role(&ctx.http(), config.moderation.mute_role.unwrap()).await.unwrap();
-        temp_mute.self_destruct(db.clone()).await;
     }
 }

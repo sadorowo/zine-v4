@@ -16,22 +16,20 @@ pub async fn user(
 ) -> Result<(), String> {
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let mut embeds: Embeds = Embeds::from_context(ctx);
+
     let user = user.unwrap_or_else(|| ctx.author().clone());
-    let member = ctx
-        .guild()
-        .unwrap()
-        .member(&ctx.serenity_context().http, user.id).await;
+    let guild = ctx.guild().unwrap().clone();
+    let member = guild.member(&ctx.http(), user.id).await;
 
     let mut embed = embeds.info(
         &lang.translate("embed_title.user"),
         "",
-    ).await;
-
-    embed.image(user.face());
-    embed.fields([
+    ).await
+    .image(user.face())
+    .fields([
         (
             lang.translate("user.username"),
-            format!("{}#{}", no_md![user.name], user.discriminator),
+            no_md!(user.name),
             true
         ),
         (
@@ -52,7 +50,7 @@ pub async fn user(
     ]);
 
     if let Ok(member) = member {
-        embed.fields([
+        embed = embed.fields([
             (
                 lang.translate("user.joined_at"),
                 if !member.joined_at.is_none()
@@ -61,7 +59,7 @@ pub async fn user(
             ),
             (
                 lang.translate("user.nick"),
-                member.nick.unwrap_or_else(|| lang.translate("user.no_nick")),
+                member.nick.clone().unwrap_or_else(|| lang.translate("user.no_nick")),
                 true
             ),
             (

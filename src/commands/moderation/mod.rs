@@ -1,4 +1,4 @@
-use poise::serenity_prelude::{CacheHttp, Member, RoleId, User};
+use poise::serenity_prelude::{Member, RoleId, User};
 use crate::utils::framework::Context;
 
 pub mod ban;
@@ -17,8 +17,8 @@ async fn check_hierarchy(ctx: Context<'_>, target: Member) -> Option<String> {
     let author = ctx.author_member().await.unwrap();
     let action_type = ctx.invoked_command_name();
 
-    let author_top_role = author.highest_role_info(ctx.cache().unwrap()).unwrap_or((RoleId(0), 0)).1;
-    let target_top_role = target.highest_role_info(ctx.cache().unwrap()).unwrap_or((RoleId(0), 0)).1;
+    let author_top_role = author.highest_role_info(ctx.cache()).unwrap_or((RoleId::new(0), 0)).1;
+    let target_top_role = target.highest_role_info(ctx.cache()).unwrap_or((RoleId::new(0), 0)).1;
 
     if author_top_role <= target_top_role && author.user.id != ctx.guild().unwrap().owner_id {
         return Some(format!("{action_type}.highest_role"));
@@ -37,14 +37,16 @@ async fn check_hierarchy(ctx: Context<'_>, target: Member) -> Option<String> {
 
 async fn check_ban(ctx: Context<'_>, target: User) -> Option<String> {
     let author = ctx.author_member().await.unwrap();
-    let target_member = ctx.guild().unwrap().member(&ctx.http(), target.id).await;
+    let guild = ctx.guild().unwrap().clone();
+
+    let target_member = guild.member(&ctx.http(), target.id).await;
 
     if target_member.is_ok() {
-        let author_top_role = author.highest_role_info(ctx.cache().unwrap()).unwrap_or((RoleId(0), 0)).1;
+        let author_top_role = author.highest_role_info(ctx.cache()).unwrap_or((RoleId::new(0), 0)).1;
         let target_top_role = target_member
             .unwrap()
-            .highest_role_info(ctx.cache().unwrap())
-            .unwrap_or((RoleId(0), 0)).1;
+            .highest_role_info(ctx.cache())
+            .unwrap_or((RoleId::new(0), 0)).1;
 
         if author_top_role <= target_top_role && author.user.id != ctx.guild().unwrap().owner_id {
             return Some("ban.highest_role".to_string());

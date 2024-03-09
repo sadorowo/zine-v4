@@ -1,5 +1,6 @@
+use poise::serenity_prelude::User;
+
 use crate::database::moderation::{Punishment, PunishmentAction};
-use poise::serenity_prelude::{CacheHttp, User};
 use crate::language::handler::LanguageHandler;
 use crate::commands::moderation::check_ban;
 use crate::{map_str, no_md};
@@ -30,8 +31,11 @@ pub async fn ban(
         return Err(lang.translate(&ban_error));
     }
 
-    if ctx.guild().unwrap()
-        .bans(&ctx.http()).await.unwrap()
+    let guild = ctx.guild().unwrap().clone();
+    if guild
+        .bans(&ctx.http(), None, None)
+        .await
+        .unwrap()
         .iter()
         .any(|ban| ban.user.id == user.id)
     {
@@ -45,7 +49,7 @@ pub async fn ban(
         return Err(lang.translate("ban.days_error").to_string());
     }
 
-    match ctx.guild().unwrap().ban_with_reason(
+    match guild.ban_with_reason(
         &ctx.http(),
         user.clone(),
         days,

@@ -18,16 +18,15 @@ pub async fn channel(
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
-    if channel.kind == ChannelType::Unknown {
+    if channel.kind == ChannelType::Unknown(0) {
         return Err(lang.translate("channel.invalid_type"));
     }
 
-    let mut embed = embeds.info(
+    let embed = embeds.info(
         &lang.translate("embed_title.channel"),
         "",
-    ).await;
-
-    embed.fields([
+    ).await
+    .fields([
         (
             lang.translate("channel.name"),
             no_md![channel.name],

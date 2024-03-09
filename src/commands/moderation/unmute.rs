@@ -1,8 +1,8 @@
 use crate::database::moderation::{Punishment, PunishmentAction, TempMute};
 use crate::commands::moderation::check_hierarchy;
-use poise::serenity_prelude::{CacheHttp, Member};
 use crate::database::guild_config::GuildConfig;
 use crate::language::handler::LanguageHandler;
+use poise::serenity_prelude::Member;
 use crate::theme::embeds::Embeds;
 use crate::commands::Context;
 use crate::{map_str, no_md};
@@ -17,7 +17,7 @@ required_bot_permissions = "MANAGE_ROLES",
 )]
 pub async fn unmute(
     ctx: Context<'_>,
-    mut user: Member,
+    user: Member,
     #[rest]
     reason: Option<String>,
 ) -> Result<(), String> {
@@ -50,7 +50,7 @@ pub async fn unmute(
     ).await {
         Ok(_) => {
             if temp_mute_data.is_some() {
-                temp_mute_data.unwrap().self_destruct(ctx.data().db.clone()).await;
+                temp_mute_data.unwrap().self_destruct(&ctx.data().db.clone()).await;
             }
             
             Punishment::new(

@@ -37,7 +37,7 @@ async fn config_show(
         ""
     ).await;
 
-    embed.fields([
+    embed = embed.fields([
         (
             lang.translate("config.embed_field.mute_role"),
             format_role(ctx, config.moderation.mute_role),
@@ -69,7 +69,7 @@ async fn mute_role(
         return Err(lang.translate("config.mute_role.managed"));
     }
     
-    if role.id.0 == ctx.guild_id().unwrap().0 {
+    if role.id.get() == ctx.guild_id().unwrap().get() {
         return Err(lang.translate("config.mute_role.everyone"));
     }
 

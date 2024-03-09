@@ -1,10 +1,10 @@
 use crate::database::guild_config::GuildConfig;
 use crate::language::handler::LanguageHandler;
-use poise::serenity_prelude::CreateEmbed;
+use poise::serenity_prelude::{CreateEmbed, CreateEmbedAuthor, CreateEmbedFooter};
 use crate::utils::framework::Context;
 use crate::commands::Data;
 use crate::map_str;
-use poise::ReplyHandle;
+use poise::{CreateReply, ReplyHandle};
 
 pub struct Embeds<'a> {
     ctx: Context<'a>,
@@ -30,12 +30,13 @@ impl<'a> Embeds<'a> {
     }
 
     pub fn gen(&mut self, title: &str, description: &str, color: u32) -> CreateEmbed {
-        let mut embed = CreateEmbed::default();
-        embed.author(|a| a.name(title).icon_url(self.get_footer_icon()));
-        embed.description(description);
-        embed.color(color);
-        embed.footer(|f| f.text(self.get_footer_text()));
+        let embed = CreateEmbed::default();
+
         embed
+            .author(CreateEmbedAuthor::new(title).icon_url(self.get_footer_icon()))
+            .footer(CreateEmbedFooter::new(self.get_footer_text()))
+            .description(description)
+            .color(color)
     }
 
     pub async fn success(&mut self, title: &str, description: &str) -> CreateEmbed {
@@ -67,23 +68,13 @@ impl<'a> Embeds<'a> {
     }
 
     pub async fn send(&self, embed: CreateEmbed) -> ReplyHandle<'a> {
-        let embed: &'static mut CreateEmbed = Box::leak(Box::new(embed));
-
-        self.ctx.send(|m| m.embed(|e| {
-            e.clone_from(embed);
-            e
-        }))
+        self.ctx.send(CreateReply::default().embed(embed))
             .await
             .expect("error while sending embed")
     }
 
     pub async fn edit(&self, reply: ReplyHandle<'a>, embed: CreateEmbed) {
-        let embed: &'static mut CreateEmbed = Box::leak(Box::new(embed));
-
-        reply.edit(self.ctx, |m| m.embed(|e| {
-            e.clone_from(embed);
-            e
-        }))
+        reply.edit(self.ctx, CreateReply::default().embed(embed))
             .await
             .expect("error while editing embed");
     }

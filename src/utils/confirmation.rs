@@ -1,11 +1,13 @@
-use poise::serenity_prelude::{CacheHttp, Message, ReactionType};
+use poise::serenity_prelude::{EditMessage, Message, ReactionType};
+use rand::seq::SliceRandom;
+use std::time::Duration;
+use poise::CreateReply;
+use rand::Rng;
+
 use crate::language::handler::LanguageHandler;
 use crate::utils::framework::Context;
 use crate::theme::embeds::Embeds;
-use rand::seq::SliceRandom;
-use std::time::Duration;
 use crate::map_str;
-use rand::Rng;
 
 pub struct Confirmation<'a> {
     ctx: Context<'a>,
@@ -42,22 +44,19 @@ impl<'a> Confirmation<'a> {
         let lang: LanguageHandler = LanguageHandler::from_context(self.ctx.clone());
 
         let (reactions, correct_reaction) = Self::generate_random_reactions();
-        let mut embed = embeds.info(
-            &lang.translate("embed_title.confirmation"),
-            &self.message
-        ).await;
-
-        embed.field(
-            &lang.translate("confirmation.instructions_title"),
-            &lang.translate_v("confirmation.instructions_description", map_str!("correct" => correct_reaction)),
-            false
-        );
+        let embed =
+            embeds.info(
+                &lang.translate("embed_title.confirmation"),
+                &self.message
+            ).await
+            .field(
+                &lang.translate("confirmation.instructions_title"),
+                &lang.translate_v("confirmation.instructions_description", map_str!("correct" => correct_reaction)),
+                false
+            );
 
         let mut message = self.ctx
-            .send(|b| b.embed(|e| {
-                *e = embed;
-                e
-            }))
+            .send(CreateReply::default().embed(embed))
             .await
             .unwrap()
             .into_message()
@@ -79,7 +78,6 @@ impl<'a> Confirmation<'a> {
             .await;
 
         if let Some(reaction) = collector {
-            let reaction = reaction.as_inner_ref();
             let reaction = reaction.emoji.as_data();
 
             if reaction == correct_reaction {
@@ -92,7 +90,7 @@ impl<'a> Confirmation<'a> {
 
                 message.edit(
                     &self.ctx.http(),
-                    |e| e.set_embed(error_embed)
+                    EditMessage::new().embed(error_embed)
                 ).await.expect("cannot edit message");
             }
 

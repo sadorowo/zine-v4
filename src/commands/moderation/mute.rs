@@ -1,8 +1,8 @@
 use crate::database::moderation::{Punishment, PunishmentAction};
 use crate::commands::moderation::check_hierarchy;
-use poise::serenity_prelude::{CacheHttp, Member};
 use crate::database::guild_config::GuildConfig;
 use crate::language::handler::LanguageHandler;
+use poise::serenity_prelude::Member;
 use crate::theme::embeds::Embeds;
 use crate::commands::Context;
 use crate::{map_str, no_md};
@@ -17,14 +17,15 @@ required_bot_permissions = "MANAGE_ROLES",
 )]
 pub async fn mute(
     ctx: Context<'_>,
-    mut user: Member,
+    user: Member,
     #[rest]
     reason: Option<String>,
 ) -> Result<(), String> {
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let config = GuildConfig::from_context(&ctx).await;
     let mut embeds: Embeds = Embeds::from_context(ctx);
-    let guild = ctx.guild().unwrap();
+
+    let guild = ctx.guild().unwrap().clone();
 
     if let Some(mute_error) = check_hierarchy(ctx, user.clone()).await {
         return Err(lang.translate(&mute_error));

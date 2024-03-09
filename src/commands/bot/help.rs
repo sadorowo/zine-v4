@@ -43,7 +43,7 @@ pub async fn help(
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
     if command_name.is_none() {
-        let mut categories = HashMap::<Option<&str>, Vec<&Command<Data, String>>>::new();
+        let mut categories = HashMap::<String, Vec<&Command<Data, String>>>::new();
         let mut fields: Vec<(String, String, bool)> = vec![];
 
         for cmd in &ctx.framework().options().commands {
@@ -51,20 +51,17 @@ pub async fn help(
                 continue;
             }
 
-            let category = categories.get(&cmd.clone().category);
-            if category.is_none() {
-                categories.insert(cmd.category, vec![cmd]);
-            } else {
-                let mut category = category.unwrap().clone();
-                category.push(cmd);
-
-                categories.insert(cmd.category, category);
+            let category = cmd.category.clone().unwrap_or_else(|| "n/a".to_string());
+            if !categories.contains_key(&category) {
+                categories.insert(category.clone(), vec![]);
             }
+
+            categories.get_mut(&category).unwrap().push(cmd);
         }
 
         for (category_name, commands) in categories {
             fields.push((
-                category_name.unwrap_or("n/a").to_string(),
+                category_name,
                 format_command_list(ctx, &commands),
                 false,
             ));
@@ -75,7 +72,7 @@ pub async fn help(
             &lang.translate("help.general"),
         ).await;
 
-        embed.fields(fields);
+        embed = embed.fields(fields);
         embeds.send(embed).await;
     } else {
         let command = get_command(ctx.clone(), command_name.as_ref().unwrap());
@@ -112,7 +109,7 @@ pub async fn help(
                 subcommands.push_str(format!(" `{}`", localized_name).as_str());
             });
 
-            embed.field(
+            embed = embed.field(
                 lang.translate("help.with_command.subcommands"),
                 subcommands,
                 false,
@@ -133,7 +130,7 @@ pub async fn help(
             })
         };
 
-        embed.fields([
+        embed = embed.fields([
             (
                 lang.translate("help.with_command.usage"),
                 usage,
@@ -147,7 +144,7 @@ pub async fn help(
             ),
             (
                 lang.translate("help.with_command.category"),
-                command.category.unwrap_or("n/a").to_string(),
+                command.category.clone().unwrap_or_else(|| "n/a".to_string()),
                 false,
             ),
         ]);

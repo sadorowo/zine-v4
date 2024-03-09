@@ -1,10 +1,11 @@
 use crate::database::moderation::{Punishment, PunishmentAction};
-use poise::serenity_prelude::{CacheHttp, Member};
-use crate::language::handler::LanguageHandler;
 use crate::commands::moderation::check_hierarchy;
-use crate::{map_str, no_md};
+use crate::language::handler::LanguageHandler;
 use crate::theme::embeds::Embeds;
 use crate::commands::Context;
+use crate::{map_str, no_md};
+
+use poise::serenity_prelude::Member;
 
 #[poise::command(
 slash_command,

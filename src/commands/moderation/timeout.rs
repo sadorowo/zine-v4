@@ -1,5 +1,5 @@
 use crate::database::moderation::{Punishment, PunishmentAction};
-use poise::serenity_prelude::{CacheHttp, Member, Timestamp};
+use poise::serenity_prelude::{Member, Timestamp};
 use crate::commands::moderation::check_hierarchy;
 use crate::language::handler::LanguageHandler;
 use crate::theme::embeds::Embeds;
@@ -27,14 +27,14 @@ pub async fn timeout(
         return Err(lang.translate(&timeout_error));
     }
 
-    if user.permissions(&ctx.cache().unwrap()).unwrap().administrator() {
+    if user.permissions(&ctx.cache()).unwrap().administrator() {
         return Err(lang.translate("timeout.administrator"));
     }
 
     let reason = reason.unwrap_or(lang.translate("no_reason").to_string());
     match user.disable_communication_until_datetime(
         &ctx.http(),
-        Timestamp::from(chrono::Utc::now() + chrono::Duration::days(28)),
+        Timestamp::from(chrono::Utc::now() + chrono::Duration::try_days(28).unwrap()),
     ).await {
         Ok(_) => {
             Punishment::new(

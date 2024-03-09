@@ -51,8 +51,8 @@ impl Punishment {
     pub async fn get_all(db: Database, guild_id: GuildId, user_id: UserId) -> Vec<Punishment> {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
-            "user_id": user_id.0 as i64,
-            "guild_id": guild_id.0 as i64
+            "user_id": user_id.get() as i64,
+            "guild_id": guild_id.get() as i64
         };
 
         let mut cursor = collection.find(filter, None).await.unwrap();
@@ -68,7 +68,7 @@ impl Punishment {
     pub async fn get(db: Database, guild_id: GuildId, punishment_id: u64) -> Option<Punishment> {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
-            "guild_id": guild_id.0 as i64,
+            "guild_id": guild_id.get() as i64,
             "punishment_id": punishment_id as i64
         };
 
@@ -78,7 +78,7 @@ impl Punishment {
     pub async fn get_newest(db: Database, guild_id: GuildId) -> Option<Punishment> {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
-            "guild_id": guild_id.0 as i64,
+            "guild_id": guild_id.get() as i64,
         };
 
         let mut cursor = collection.find(filter, None).await.unwrap();
@@ -102,10 +102,10 @@ impl Punishment {
     ) {
         let punishment_id = Punishment::get_newest(db.clone(), guild_id).await.map_or(1, |p| p.punishment_id + 1);
         let punishment = Punishment {
-            user_id: user_id.0,
-            guild_id: guild_id.0,
+            user_id: user_id.get(),
+            guild_id: guild_id.get(),
             reason,
-            moderator_id: moderator_id.0,
+            moderator_id: moderator_id.get(),
             punishment_id,
             punishment_type,
             created_at: Timestamp::from(chrono::Utc::now()),
@@ -137,8 +137,8 @@ impl TempBan {
         let expires_at = time.as_secs() as i64 + chrono::Utc::now().timestamp();
 
         let temp_ban = TempBan {
-            user_id: user_id.0,
-            guild_id: guild_id.0,
+            user_id: user_id.get(),
+            guild_id: guild_id.get(),
             expires_at,
         };
 
@@ -146,7 +146,7 @@ impl TempBan {
         collection.insert_one(temp_ban, None).await.unwrap();
     }
 
-    pub async fn expired(db: Database) -> Vec<TempBan> {
+    pub async fn expired(db: &Database) -> Vec<TempBan> {
         let collection = db.collection::<TempBan>("temp_bans");
         let filter = doc! {
             "expires_at": {
@@ -164,7 +164,7 @@ impl TempBan {
         temp_bans
     }
 
-    pub async fn self_destruct(&self, db: Database) {
+    pub async fn self_destruct(&self, db: &Database) {
         let collection = db.collection::<TempBan>("temp_bans");
         collection.delete_one(doc! {
             "user_id": self.user_id as i64,
@@ -186,8 +186,8 @@ impl TempMute {
         let expires_at = time.as_secs() as i64 + chrono::Utc::now().timestamp();
 
         let temp_mute = TempMute {
-            user_id: user_id.0,
-            guild_id: guild_id.0,
+            user_id: user_id.get(),
+            guild_id: guild_id.get(),
             expires_at,
         };
 
@@ -195,7 +195,7 @@ impl TempMute {
         collection.insert_one(temp_mute, None).await.unwrap();
     }
 
-    pub async fn expired(db: Database) -> Vec<TempMute> {
+    pub async fn expired(db: &Database) -> Vec<TempMute> {
         let collection = db.collection::<TempMute>("temp_mutes");
         let filter = doc! {
             "expires_at": {
@@ -213,7 +213,7 @@ impl TempMute {
         temp_mutes
     }
 
-    pub async fn self_destruct(&self, db: Database) {
+    pub async fn self_destruct(&self, db: &Database) {
         let collection = db.collection::<TempMute>("temp_mutes");
         collection.delete_one(doc! {
             "user_id": self.user_id as i64,
@@ -225,8 +225,8 @@ impl TempMute {
     pub async fn is_muted(db: Database, guild_id: GuildId, user_id: UserId) -> bool {
         let collection = db.collection::<TempMute>("temp_mutes");
         let filter = doc! {
-            "guild_id": guild_id.0 as i64,
-            "user_id": user_id.0 as i64
+            "guild_id": guild_id.get() as i64,
+            "user_id": user_id.get() as i64
         };
 
         let result = collection.find_one(filter, None)
@@ -238,8 +238,8 @@ impl TempMute {
     pub async fn get_mute_data(db: Database, guild_id: GuildId, user_id: UserId) -> Option<TempMute> {
         let collection = db.collection::<TempMute>("temp_mutes");
         let filter = doc! {
-            "guild_id": guild_id.0 as i64,
-            "user_id": user_id.0 as i64
+            "guild_id": guild_id.get() as i64,
+            "user_id": user_id.get() as i64
         };
 
         let result = collection.find_one(filter, None)

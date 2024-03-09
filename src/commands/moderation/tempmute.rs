@@ -1,12 +1,13 @@
 use crate::database::moderation::{Punishment, PunishmentAction, TempMute};
 use crate::commands::moderation::check_hierarchy;
-use poise::serenity_prelude::{CacheHttp, Member};
 use crate::database::guild_config::GuildConfig;
 use crate::language::handler::LanguageHandler;
 use crate::models::duration::Duration;
 use crate::theme::embeds::Embeds;
 use crate::commands::Context;
 use crate::{map_str, no_md};
+
+use poise::serenity_prelude::Member;
 use std::time;
 
 #[poise::command(
@@ -19,7 +20,7 @@ required_bot_permissions = "MANAGE_ROLES"
 )]
 pub async fn tempmute(
     ctx: Context<'_>,
-    mut user: Member,
+    user: Member,
     duration: Duration,
     #[rest]
     reason: Option<String>,
@@ -27,7 +28,8 @@ pub async fn tempmute(
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let config = GuildConfig::from_context(&ctx).await;
     let mut embeds: Embeds = Embeds::from_context(ctx);
-    let guild = ctx.guild().unwrap();
+
+    let guild = ctx.guild().unwrap().clone();
 
     if let Some(tempmute_error) = check_hierarchy(ctx, user.clone()).await {
         return Err(lang.translate(&tempmute_error));

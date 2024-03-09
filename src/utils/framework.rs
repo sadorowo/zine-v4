@@ -2,23 +2,19 @@ use crate::{commands::Data, database::guild_config::GuildConfig, map_str, no_md}
 use crate::language::handler::LanguageHandler;
 use crate::theme::embeds::Embeds;
 use std::num::ParseIntError;
+use std::sync::Arc;
 
-use poise::{
-    FrameworkOptions, PrefixFrameworkOptions,
-    EditTracker, Command, FrameworkError,
-    Context::Application,
-    serenity_prelude::{
-        CreateAllowedMentions, CreateEmbed,
-        RoleParseError, ChannelParseError,
-        MemberParseError,
-        GuildParseError,
-        GuildChannelParseError,
-        EmojiParseError,
-        UserParseError,
-    },
-};
+use poise::{FrameworkOptions, PrefixFrameworkOptions, EditTracker, Command, FrameworkError, Context::Application, serenity_prelude::{
+    CreateAllowedMentions, CreateEmbed,
+    RoleParseError, ChannelParseError,
+    MemberParseError,
+    GuildParseError,
+    GuildChannelParseError,
+    EmojiParseError,
+    UserParseError,
+}};
 
-use poise::serenity_prelude::{AttachmentType, CacheHttp, ReactionType};
+use poise::serenity_prelude::{CreateAttachment, CreateMessage, ReactionType};
 use crate::models::duration::DurationParseError;
 use crate::models::color::ColorError;
 use tokio::io::AsyncWriteExt;
@@ -44,7 +40,9 @@ pub fn init_framework_options(vec: Vec<Command<Data, String>>) -> FrameworkOptio
 
                 Ok(None)
             })),
-            edit_tracker: Some(EditTracker::for_timespan(std::time::Duration::from_secs(3600))),
+            edit_tracker: Some(Arc::new(
+                EditTracker::for_timespan(std::time::Duration::from_secs(3600))
+            )),
             case_insensitive_commands: true,
             ..Default::default()
         },
@@ -75,12 +73,13 @@ pub fn init_framework_options(vec: Vec<Command<Data, String>>) -> FrameworkOptio
                             let mut file = tokio::fs::File::create("error.txt").await.unwrap();
                             let _ = file.write_all(text.as_bytes()).await;
 
+                            let m = CreateMessage::default()
+                                .content(lang.translate("errors.command.title"))
+                                .add_file(CreateAttachment::file(&file, "error.txt").await.unwrap());
+
                             let e = ctx
                                 .channel_id()
-                                .send_message(ctx, |m| {
-                                    m.content(lang.translate("errors.command.title"))
-                                    .add_file(AttachmentType::from("error.txt"))
-                                })
+                                .send_message(ctx, m)
                                 .await;
 
                             if e.is_err() {
@@ -135,10 +134,10 @@ pub fn init_framework_options(vec: Vec<Command<Data, String>>) -> FrameworkOptio
                         ).await);
                     }
 
-                    FrameworkError::CooldownHit { remaining_cooldown, ctx } => {
+                    FrameworkError::CooldownHit { remaining_cooldown, ctx, .. } => {
                         let result = ctx.http().create_reaction(
-                            ctx.channel_id().0,
-                            ctx.id(),
+                            ctx.channel_id(),
+                            ctx.id().into(),
                             &ReactionType::Unicode("🕓".to_string()),
                         ).await;
 

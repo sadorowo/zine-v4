@@ -15,24 +15,24 @@ pub async fn server(ctx: Context<'_>) -> Result<(), String> {
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
-    let guild = ctx.guild().unwrap();
+    let guild = ctx.guild().unwrap().clone();
     let mut embed = embeds.info(
         &lang.translate("embed_title.server"),
         "",
     ).await;
 
     if let Some(icon) = guild.icon_url() {
-        embed.thumbnail(icon);
+        embed = embed.thumbnail(icon);
     }
 
     if let Some(banner) = guild.banner_url() {
-        embed.image(banner);
+        embed = embed.image(banner);
     }
 
-    embed.fields([
+    embed = embed.fields([
         (
             lang.translate("server.name"),
-            no_md![guild.name],
+            no_md!(&guild.name),
             true
         ),
         (

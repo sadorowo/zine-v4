@@ -1,7 +1,5 @@
 use crate::language::handler::LanguageHandler;
 use super::{Data, Context};
-use std::time::Duration;
-use std::sync::Mutex;
 
 fn format_parameter(lang: LanguageHandler<'_>, command_name: &str, param: poise::CommandParameter<Data, String>) -> poise::CommandParameter<Data, String> {
     poise::CommandParameter {
@@ -15,13 +13,6 @@ pub async fn transform_command(lang: LanguageHandler<'_>, command: poise::Comman
     poise::Command {
         name_localizations: lang.get_localizations(&format!("command_name.{}", &command.name)),
         description_localizations: lang.get_localizations(&format!("command_description.{}", &command.name)),
-        cooldowns: Mutex::new(poise::Cooldowns::new(poise::CooldownConfig {
-            user: Some(Duration::from_secs(5)),
-            channel: None,
-            global: None,
-            member: None,
-            guild: None,
-        })),
         subcommands: command.subcommands
             .into_iter()
             .map(|subcommand| poise::Command {
@@ -56,7 +47,7 @@ pub fn get_command<'a>(ctx: Context<'a>, query: &str) -> Option<&'a poise::Comma
     let mut command = None;
 
     for cmd in commands {
-        if cmd.name == query || cmd.aliases.contains(&query) {
+        if cmd.name == query || cmd.aliases.contains(&query.to_string()) {
             command = Some(cmd);
             break;
         }

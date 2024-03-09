@@ -1,10 +1,11 @@
 use crate::language::handler::LanguageHandler;
 use crate::utils::confirmation::Confirmation;
 use crate::database::moderation::Punishment;
-use poise::serenity_prelude::CacheHttp;
 use crate::theme::embeds::Embeds;
 use crate::commands::Context;
-use crate::{map_str};
+use crate::map_str;
+
+use poise::serenity_prelude::EditMessage;
 
 #[poise::command(
 slash_command,
@@ -48,7 +49,7 @@ pub async fn delete_punishment(
 
     message.edit(
         &ctx.http(),
-        |e| e.set_embed(embed)
+        EditMessage::new().embed(embed)
     ).await.expect("cannot edit message");
 
     Ok(())

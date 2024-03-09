@@ -1,8 +1,8 @@
 use crate::utils::types::no_generic_type;
 use crate::utils::framework::Context;
+
 use std::collections::HashMap;
 use chrono::{DateTime, Local};
-use crate::services::Service;
 use poise::Command;
 
 pub mod moderation;
@@ -15,7 +15,6 @@ pub mod dev;
 
 pub struct Data {
     pub(crate) db: mongodb::Database,
-    pub(crate) services: Vec<Service>,
     pub(crate) uptime: DateTime<Local>
 }
 
@@ -36,7 +35,6 @@ pub fn get_commands() -> Vec<Command<Data, String>> {
         bot::ping::ping(),
         bot::stats::stats(),
         dev::shell::shell(),
-        dev::services::services(),
         info::user::user(),
         info::channel::channel(),
         info::role::role(),
