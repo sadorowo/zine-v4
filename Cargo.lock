@@ -2896,5 +2896,4 @@ dependencies = [
  "sysinfo",
  "tokio",
  "toml",
- "typemap_rev",
 ]
