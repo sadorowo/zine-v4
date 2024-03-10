@@ -64,20 +64,12 @@ impl<'a> LanguageHandler<'a> {
         value.as_str().unwrap().to_string()
     }
 
-    pub fn get_language_file(&self) -> String {
-        Self::get_file_from(self.locale.to_string())
-    }
-
-    pub fn parse_language_file(&self) -> toml::Value {
-        Self::parse_language_file_from(self.locale.to_string())
-    }
-
     pub fn translate(&self, key: &str) -> String {
         Self::translate_from(self.locale.to_string(), key.to_string())
     }
 
     pub fn translate_v(&self, key: &str, variables: HashMap<String, String>) -> String {
-        let mut value = self.translate(key.clone());
+        let mut value = self.translate(key);
         for (from, to) in variables {
             value = value.replace(&format!("{{{}}}", from), &to);
         }

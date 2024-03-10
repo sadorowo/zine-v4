@@ -29,7 +29,7 @@ pub async fn warn(
 
     let reason = reason.unwrap_or(lang.translate("no_reason").to_string());
     Punishment::new(
-        ctx.data().db.clone(),
+        &ctx.data().db,
         user.user.id,
         ctx.guild_id().unwrap(),
         reason.clone(),

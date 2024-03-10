@@ -57,7 +57,7 @@ pub async fn ban(
     ).await {
         Ok(_) => {
             Punishment::new(
-                ctx.data().db.clone(),
+                &ctx.data().db,
                 user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),

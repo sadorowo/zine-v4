@@ -1,4 +1,3 @@
-use crate::utils::types::no_generic_type;
 use crate::utils::framework::Context;
 
 use std::collections::HashMap;
@@ -29,7 +28,7 @@ pub async fn register_commands(ctx: Context<'_>) -> Result<(), String> {
 }
 
 pub fn get_commands() -> Vec<Command<Data, String>> {
-    let commands = vec![
+    vec![
         register_commands(),
         bot::help::help(),
         bot::ping::ping(),
@@ -54,14 +53,7 @@ pub fn get_commands() -> Vec<Command<Data, String>> {
         moderation::mute::mute(),
         moderation::unmute::unmute(),
         moderation::tempmute::tempmute(),
-    ];
-
-    commands
-        .iter()
-        .for_each(|cmd|
-            assert_eq!(no_generic_type(cmd), "poise::structs::command::Command"));
-
-    commands
+    ]
 }
 
 pub fn get_localized<F, S, R>(ctx: Context<'_>, s: S, f: F) -> R

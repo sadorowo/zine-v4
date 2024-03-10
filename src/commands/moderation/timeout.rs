@@ -38,12 +38,12 @@ pub async fn timeout(
     ).await {
         Ok(_) => {
             Punishment::new(
-                ctx.data().db.clone(),
+                &ctx.data().db,
                 user.user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),
                 ctx.author().id,
-                PunishmentAction::Timeout
+                PunishmentAction::Timeout,
             ).await;
 
             let embed = embeds.success(
@@ -59,7 +59,7 @@ pub async fn timeout(
         }
 
         Err(_) => {
-            return Err(lang.translate("timeout.error_description"))
+            return Err(lang.translate("timeout.error_description"));
         }
     }
 }

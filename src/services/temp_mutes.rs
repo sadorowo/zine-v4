@@ -37,7 +37,7 @@ impl TempMuteService {
         let temp_mutes = TempMute::expired(database).await;
 
         for temp_mute in temp_mutes {
-            let guild_config = GuildConfig::from_raw(database.clone(), &temp_mute.guild_id.to_string()).await;
+            let guild_config = GuildConfig::from_raw(database, &temp_mute.guild_id.to_string()).await;
 
             if guild_config.moderation.mute_role.is_none() {
                 temp_mute.self_destruct(database).await;

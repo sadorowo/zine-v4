@@ -30,7 +30,7 @@ pub fn init_framework_options(vec: Vec<Command<Data, String>>) -> FrameworkOptio
                 }
 
                 let guild_id: String = m.guild_id.unwrap().to_string();
-                let config: GuildConfig = GuildConfig::from_raw(data.db.clone(), &guild_id).await;
+                let config: GuildConfig = GuildConfig::from_raw(&data.db, &guild_id).await;
 
                 for prefix in config.prefixes {
                     if m.content.starts_with(&prefix) {

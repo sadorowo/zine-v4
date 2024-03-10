@@ -6,7 +6,6 @@ pub struct Duration(pub std::time::Duration);
 
 #[derive(Debug)]
 pub enum DurationParseError {
-    InvalidFormat,
     InvalidUnit,
     InvalidNumber,
     TooSmall,
@@ -17,7 +16,6 @@ impl std::error::Error for DurationParseError {}
 impl Display for DurationParseError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            DurationParseError::InvalidFormat => write!(f, "Invalid format"),
             DurationParseError::InvalidUnit => write!(f, "Invalid unit"),
             DurationParseError::InvalidNumber => write!(f, "Invalid number"),
             DurationParseError::TooSmall => write!(f, "Duration is too small to be parsed"),

@@ -33,7 +33,7 @@ async fn success(
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
     config.theme.color_success = color.0;
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.theme_updated"),
@@ -63,7 +63,7 @@ async fn warning(
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
     config.theme.color_warning = color.0;
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.theme_updated"),
@@ -93,7 +93,7 @@ async fn info(
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
     config.theme.color_info = color.0;
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.theme_updated"),
@@ -123,7 +123,7 @@ async fn error(
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
     config.theme.color_error = color.0;
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.theme_updated"),

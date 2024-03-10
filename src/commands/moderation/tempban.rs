@@ -63,8 +63,10 @@ pub async fn tempban(
         &reason
     ).await {
         Ok(_) => {
+            let db = &ctx.data().db;
+
             Punishment::new(
-                ctx.data().db.clone(),
+                db,
                 user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),
@@ -73,7 +75,7 @@ pub async fn tempban(
             ).await;
 
             TempBan::new(
-                ctx.data().db.clone(),
+                db,
                 user.id,
                 ctx.guild_id().unwrap(),
                 duration.0,

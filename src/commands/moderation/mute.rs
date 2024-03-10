@@ -48,7 +48,7 @@ pub async fn mute(
     ).await {
         Ok(_) => {
             Punishment::new(
-                ctx.data().db.clone(),
+                &ctx.data().db,
                 user.user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),

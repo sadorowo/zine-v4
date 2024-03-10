@@ -37,7 +37,7 @@ async fn prefix_add(
     }
 
     config.prefixes.push(prefix);
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.prefix.add_success"),
@@ -72,7 +72,7 @@ async fn prefix_remove(
     }
 
     config.prefixes.retain(|p| p != &prefix);
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.prefix.remove_success"),

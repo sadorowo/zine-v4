@@ -70,7 +70,7 @@ impl GuildConfig {
         }
     }
 
-    pub async fn from_raw(db: Database, guild_id: &str) -> Self {
+    pub async fn from_raw(db: &Database, guild_id: &str) -> Self {
         let guild_id: String = guild_id.to_string();
         let field = db.collection("guilds").find_one(mongodb::bson::doc! {
             "guild_id": guild_id.clone()
@@ -93,7 +93,7 @@ impl GuildConfig {
         }
     }
 
-    pub async fn save(&mut self, ctx: Context<'_>) -> mongodb::error::Result<UpdateResult> {
+    pub async fn save(&mut self, ctx: &Context<'_>) -> mongodb::error::Result<UpdateResult> {
         let db: Database = ctx.data().db.clone();
 
         db.collection::<Self>("guilds").update_one(mongodb::bson::doc! {

@@ -33,7 +33,7 @@ pub async fn kick(
     match user.kick_with_reason(&ctx.http(), &reason).await {
         Ok(_) => {
             Punishment::new(
-                ctx.data().db.clone(),
+                &ctx.data().db,
                 user.user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),

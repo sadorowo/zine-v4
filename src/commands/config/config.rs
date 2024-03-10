@@ -74,7 +74,7 @@ async fn mute_role(
     }
 
     config.moderation.mute_role = Some(role.id);
-    match config.save(ctx).await {
+    match config.save(&ctx).await {
         Ok(_) => {
             let embed = embeds.success(
                 &lang.translate("embed_title.config.mute_role"),

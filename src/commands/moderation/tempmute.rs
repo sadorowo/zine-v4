@@ -45,8 +45,9 @@ pub async fn tempmute(
         return Err(lang.translate("tempmute.no_mute_role"));
     }
 
+    let db = &ctx.data().db;
     if user.roles.contains(&config.moderation.mute_role.unwrap()) ||
-        TempMute::is_muted(ctx.data().db.clone(), guild.id, user.user.id).await
+        TempMute::is_muted(db, guild.id, user.user.id).await
     {
         return Err(lang.translate("tempmute.already_muted"));
     }
@@ -58,7 +59,7 @@ pub async fn tempmute(
     ).await {
         Ok(_) => {
             Punishment::new(
-                ctx.data().db.clone(),
+                db,
                 user.user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),
@@ -67,7 +68,7 @@ pub async fn tempmute(
             ).await;
 
             TempMute::new(
-                ctx.data().db.clone(),
+                db,
                 user.user.id,
                 ctx.guild_id().unwrap(),
                 duration.0,

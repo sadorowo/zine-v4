@@ -21,9 +21,9 @@ pub async fn delete_punishment(
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
-    let db = ctx.data().db.clone();
+    let db = &ctx.data().db;
     let punishment = Punishment::get(
-        db.clone(),
+        db,
         ctx.guild_id().unwrap(),
         punishment_id,
     ).await;
@@ -39,7 +39,7 @@ pub async fn delete_punishment(
         return Ok(());
     }
 
-    Punishment::delete(db.clone(), punishment_id).await;
+    Punishment::delete(db, punishment_id).await;
     let embed = embeds.success(
         &lang.translate("embed_title.delete_punishment"),
         &lang.translate_v("delete_punishment.success_description", map_str! {

@@ -17,7 +17,7 @@ pub async fn punishment(
     let lang: LanguageHandler = LanguageHandler::from_context(ctx);
     let mut embeds: Embeds = Embeds::from_context(ctx);
 
-    let db = ctx.data().db.clone();
+    let db = &ctx.data().db;
     let punishment = Punishment::get(
         db,
         ctx.guild_id().unwrap(),

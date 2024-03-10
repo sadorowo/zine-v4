@@ -12,6 +12,11 @@ pub fn start_services(ctx: Context, db: Database) {
     let shared_db = Arc::new(db);
     let shared_ctx = Arc::new(ctx);
 
-    TempBanService::new(shared_db.clone(), shared_ctx.clone());
-    TempMuteService::new(shared_db.clone(), shared_ctx.clone());
+    TempBanService
+        ::new(shared_db.clone(), shared_ctx.clone())
+        .setup_task(60);
+
+    TempMuteService
+        ::new(shared_db.clone(), shared_ctx.clone())
+        .setup_task(60);
 }

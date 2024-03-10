@@ -48,7 +48,7 @@ pub struct Punishment {
 }
 
 impl Punishment {
-    pub async fn get_all(db: Database, guild_id: GuildId, user_id: UserId) -> Vec<Punishment> {
+    pub async fn get_all(db: &Database, guild_id: GuildId, user_id: UserId) -> Vec<Punishment> {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
             "user_id": user_id.get() as i64,
@@ -65,7 +65,7 @@ impl Punishment {
         punishments
     }
 
-    pub async fn get(db: Database, guild_id: GuildId, punishment_id: u64) -> Option<Punishment> {
+    pub async fn get(db: &Database, guild_id: GuildId, punishment_id: u64) -> Option<Punishment> {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
             "guild_id": guild_id.get() as i64,
@@ -75,7 +75,7 @@ impl Punishment {
         collection.find_one(filter, None).await.unwrap()
     }
 
-    pub async fn get_newest(db: Database, guild_id: GuildId) -> Option<Punishment> {
+    pub async fn get_newest(db: &Database, guild_id: GuildId) -> Option<Punishment> {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
             "guild_id": guild_id.get() as i64,
@@ -93,14 +93,14 @@ impl Punishment {
     }
 
     pub async fn new(
-        db: Database,
+        db: &Database,
         user_id: UserId,
         guild_id: GuildId,
         reason: String,
         moderator_id: UserId,
         punishment_type: PunishmentAction,
     ) {
-        let punishment_id = Punishment::get_newest(db.clone(), guild_id).await.map_or(1, |p| p.punishment_id + 1);
+        let punishment_id = Punishment::get_newest(db, guild_id).await.map_or(1, |p| p.punishment_id + 1);
         let punishment = Punishment {
             user_id: user_id.get(),
             guild_id: guild_id.get(),
@@ -115,7 +115,7 @@ impl Punishment {
         collection.insert_one(punishment, None).await.unwrap();
     }
     
-    pub async fn delete(db: Database, punishment_id: u64) {
+    pub async fn delete(db: &Database, punishment_id: u64) {
         let collection = db.collection::<Punishment>("punishments");
         let filter = doc! {
             "punishment_id": punishment_id as i64
@@ -133,7 +133,7 @@ pub struct TempBan {
 }
 
 impl TempBan {
-    pub async fn new(db: Database, user_id: UserId, guild_id: GuildId, time: Duration) {
+    pub async fn new(db: &Database, user_id: UserId, guild_id: GuildId, time: Duration) {
         let expires_at = time.as_secs() as i64 + chrono::Utc::now().timestamp();
 
         let temp_ban = TempBan {
@@ -182,7 +182,7 @@ pub struct TempMute {
 }
 
 impl TempMute {
-    pub async fn new(db: Database, user_id: UserId, guild_id: GuildId, time: Duration) {
+    pub async fn new(db: &Database, user_id: UserId, guild_id: GuildId, time: Duration) {
         let expires_at = time.as_secs() as i64 + chrono::Utc::now().timestamp();
 
         let temp_mute = TempMute {
@@ -222,7 +222,7 @@ impl TempMute {
         }, None).await.unwrap();
     }
     
-    pub async fn is_muted(db: Database, guild_id: GuildId, user_id: UserId) -> bool {
+    pub async fn is_muted(db: &Database, guild_id: GuildId, user_id: UserId) -> bool {
         let collection = db.collection::<TempMute>("temp_mutes");
         let filter = doc! {
             "guild_id": guild_id.get() as i64,
@@ -235,7 +235,7 @@ impl TempMute {
         result.is_ok() && result.unwrap().is_some()
     }
     
-    pub async fn get_mute_data(db: Database, guild_id: GuildId, user_id: UserId) -> Option<TempMute> {
+    pub async fn get_mute_data(db: &Database, guild_id: GuildId, user_id: UserId) -> Option<TempMute> {
         let collection = db.collection::<TempMute>("temp_mutes");
         let filter = doc! {
             "guild_id": guild_id.get() as i64,

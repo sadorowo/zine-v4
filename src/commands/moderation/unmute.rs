@@ -33,8 +33,9 @@ pub async fn unmute(
         return Err(lang.translate("unmute.no_mute_role"));
     }
 
+    let db = &ctx.data().db;
     let temp_mute_data = TempMute::get_mute_data(
-        ctx.data().db.clone(), 
+        db,
         ctx.guild_id().unwrap(), 
         user.user.id
     ).await;
@@ -54,7 +55,7 @@ pub async fn unmute(
             }
             
             Punishment::new(
-                ctx.data().db.clone(),
+                db,
                 user.user.id,
                 ctx.guild_id().unwrap(),
                 reason.clone(),
