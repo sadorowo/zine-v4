@@ -1,3 +1,8 @@
+> [!WARNING]
+> This bot isn't maintained anymore. If you wish to continue my work, please [fork](https://github.com/sadorowo/zine-v4/fork) this repository or contribute to existing ones.
+> 
+> Thank you for everything! See you in my other projects.
+
 # Zine
 
 Powerful Discord bot written in Rust, using:
